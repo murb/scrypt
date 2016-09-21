@@ -35,8 +35,8 @@ var workerUrl = null;
 exports.Crypto_scrypt = function(passwd, salt, N, r, p, dkLen, callback, maxThreads) {
     if (N == 0 || (N & (N - 1)) != 0) throw new Error("N must be > 0 and a power of 2");
 
-    if (N > MAX_VALUE / 128 / r) throw new Error("Parameter N is too large");
-    if (r > MAX_VALUE / 128 / p) throw new Error("Parameter r is too large");
+    if (N > MAX_VALUE / 128 / r) throw new Error("N is too large");
+    if (r > MAX_VALUE / 128 / p) throw new Error("r is too large");
 
     var PBKDF2_opts = {iterations: 1, hasher: exports.Crypto.SHA256, asBytes: true};
 
@@ -223,45 +223,9 @@ exports.Crypto_scrypt = function(passwd, salt, N, r, p, dkLen, callback, maxThre
         function blockxor(S, Si, D, Di, len) {
             var i = len>>6;
             while (i--) {
+              for(var j=0; j<32;j++){
                 D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
-                D[Di++] ^= S[Si++]; D[Di++] ^= S[Si++];
+              }
             }
         }
 
@@ -287,25 +251,9 @@ exports.Crypto_scrypt = function(passwd, salt, N, r, p, dkLen, callback, maxThre
         function arraycopy32(src, srcPos, dest, destPos, length) {
             var i = length>>5;
             while(i--) {
+              for(var j=0; j<16;j++){
                 dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
-                dest[destPos++] = src[srcPos++]; dest[destPos++] = src[srcPos++];
+              }
             }
         }
     } // scryptCore
