@@ -118,13 +118,8 @@ exports.Crypto_scrypt = function(passwd, salt, N, r, p, dkLen, callback, maxThre
 
         function alloc(r, N) {
             try {
-                if (navigator.userAgent.match(/Chrome/)) {
-                    // with Uint8Array, unit tests go almost a second faster in Chrome, but 2x slower in Firefox... ?
-                    XY = new Uint8Array(256 * r);
-                    V = new Uint8Array(128 * r * N);
-                } else {
-                    throw "use standard arrays";
-                }
+                XY = new Uint8Array(256 * r);
+                V = new Uint8Array(128 * r * N);
             } catch (e) {
                 XY = [], V = [];
             }
